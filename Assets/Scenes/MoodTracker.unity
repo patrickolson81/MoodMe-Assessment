@@ -15517,7 +15517,7 @@ MonoBehaviour:
     emotionThreshold: 0.7
   - emotion: 4
     particleSystem: {fileID: 2092707884}
-    emotionThreshold: 0.3
+    emotionThreshold: 0.15
 --- !u!1001 &1469722965
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16669,13 +16669,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cdeb2438c5347d43a8fbad470cb8161, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  happySlider: {fileID: 0}
-  surprisedSlider: {fileID: 2012625222}
-  scaredSlider: {fileID: 0}
-  angrySlider: {fileID: 0}
-  disappointedSlider: {fileID: 0}
-  sadSlider: {fileID: 864320977}
-  neutralSlider: {fileID: 1647982870}
 --- !u!1 &1975262344
 GameObject:
   m_ObjectHideFlags: 0

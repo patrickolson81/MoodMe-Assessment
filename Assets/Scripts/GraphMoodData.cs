@@ -101,29 +101,44 @@ public class GraphMoodData : MonoBehaviour
     // Method to determine the mood type based on the highest value
     private string GetMoodType(MoodData moodData)
     {
-        if (moodData.sadValue > moodData.surprisedValue && moodData.sadValue > moodData.neutralValue)
+        // Prioritize sadness or surprised if they are above 0.5
+        if (moodData.sadValue > 0.5f)
         {
             return "Sad";
         }
-        else if (moodData.surprisedValue > moodData.sadValue && moodData.surprisedValue > moodData.neutralValue)
+        else if (moodData.surprisedValue > 0.5f)
         {
             return "Surprised";
         }
-        else
+
+        // Otherwise, find the highest value between sad, surprised, and neutral
+        float highestValue = Mathf.Max(moodData.sadValue, moodData.surprisedValue, moodData.neutralValue);
+
+        if (moodData.neutralValue == highestValue)
         {
             return "Neutral";
         }
+        else if (moodData.sadValue == highestValue)
+        {
+            return "Sad";
+        }
+        else if (moodData.surprisedValue == highestValue)
+        {
+            return "Surprised";
+        }
+
+        return "Neutral";  // Default case
     }
 
     // Calculate the Y position based on the highest mood value (sad below 0, neutral at 0, surprised above 0)
     private float GetMoodYPosition(MoodData moodData)
     {
-        // Prioritize sadness or surprised if they are above 0.8
-        if (moodData.sadValue > 0.8f)
+        // Prioritize sadness or surprised if they are above 0.5
+        if (moodData.sadValue > 0.5f)
         {
             return -moodData.sadValue;  // Sad values should be negative on the graph
         }
-        else if (moodData.surprisedValue > 0.8f)
+        else if (moodData.surprisedValue > 0.5f)
         {
             return moodData.surprisedValue;  // Surprised values should be positive on the graph
         }
@@ -131,21 +146,23 @@ public class GraphMoodData : MonoBehaviour
         // Otherwise, find the highest value between sad, surprised, and neutral
         float highestValue = Mathf.Max(moodData.sadValue, moodData.surprisedValue, moodData.neutralValue);
 
+        // If the highest value is neutral, plot it as 0
+        if (moodData.neutralValue == highestValue)
+        {
+            return 0f;  // Neutral values should be plotted as 0 if highest
+        }
         // If the highest value is sadness, plot it negatively
-        if (moodData.sadValue == highestValue && highestValue > 0.6f)
+        else if (moodData.sadValue == highestValue)
         {
             return -moodData.sadValue;  // Sad values should be negative on the graph
         }
         // If the highest value is surprised, plot it positively
-        else if (moodData.surprisedValue == highestValue && highestValue > 0.6f)
+        else if (moodData.surprisedValue == highestValue)
         {
             return moodData.surprisedValue;  // Surprised values should be positive on the graph
         }
-        // Otherwise, plot neutral or zero values at 0 (neutral state)
-        else
-        {
-            return 0f;  // Neutral values are at 0
-        }
+
+        return 0f;  // Default to neutral if something goes wrong
     }
 
     // Method to connect the dots with a LineRenderer
